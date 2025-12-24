@@ -6,119 +6,87 @@
 <title>赤山紅龜粿線上訂購平台</title>
 
 <style>
-body { font-family: Arial; background:#f4f4f4; margin:0 }
-header { background:#333; color:#fff; text-align:center; padding:10px }
-.container { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; padding:20px }
+body {
+  font-family: Arial, sans-serif;
+  background:#f4f4f4;
+  margin:0;
+}
+
+header {
+  background:#333;
+  color:#fff;
+  text-align:center;
+  padding:15px 10px;
+}
+
+.container {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:20px;
+  padding:30px 20px;
+}
+
 .product-card {
-  background:#fff; width:180px; padding:10px; border-radius:8px;
-  box-shadow:0 2px 5px rgba(0,0,0,.2); text-align:center
+  background:#fff;
+  width:180px;
+  padding:15px;
+  border-radius:10px;
+  box-shadow:0 2px 5px rgba(0,0,0,.2);
+  text-align:center;
 }
-.product-card img { width:160px; height:160px; object-fit:cover; border-radius:8px }
-.cart { position:fixed; right:15px; top:15px; font-size:24px; cursor:pointer }
-.cart-popup {
-  position:fixed; right:15px; top:60px; background:#fff; padding:15px;
-  width:280px; display:none; border-radius:8px;
-  box-shadow:0 2px 5px rgba(0,0,0,.3)
+
+.product-card img {
+  width:160px;
+  height:160px;
+  object-fit:cover;
+  border-radius:8px;
 }
-.cart-popup input { width:100%; margin:5px 0 }
+
+.product-card h3 {
+  margin:10px 0 5px;
+}
+
+.product-card p {
+  font-weight:bold;
+  color:#333;
+}
+.form-section {
+  margin:40px auto;
+  max-width:1100px;
+  padding:0 10px;
+}
 </style>
 </head>
 
 <body>
 
 <header>
-<h1>赤山紅龜粿線上訂購平台</h1>
+  <h1>赤山紅龜粿線上訂購平台</h1>
 </header>
 
-
- 
 <div class="container">
 
   <div class="product-card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Qingtuan_in_Tangqi_2014-04.jpg/960px-Qingtuan_in_Tangqi_2014-04.jpg">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Qingtuan_in_Tangqi_2014-04.jpg/960px-Qingtuan_in_Tangqi_2014-04.jpg" alt="草仔粿">
     <h3>草仔粿</h3>
     <p>NT$200</p>
-    <button onclick="addToCart('草仔粿',200)">加入購物車</button>
   </div>
 
   <div class="product-card">
-    <img src="https://i.imgur.com/qX9QZ4H.jpg">
+    <img src="https://i.imgur.com/qX9QZ4H.jpg" alt="紅龜粿">
     <h3>紅龜粿</h3>
     <p>NT$200</p>
-    <button onclick="addToCart('紅龜粿',200)">加入購物車</button>
   </div>
 
 </div>
 
+<div class="form-section">
   <iframe
-  src="https://docs.google.com/forms/d/e/1FAIpQLSf6sJo3vem8fPrng1AIlHpdIUX_2406BS5DcgSVxBd6NFabOQ/viewform?embedded=true"
-  style="width:100%; max-width:1100px; height:700px; display:block; margin:auto;"
-  frameborder="0">
-</iframe>
-
-
-<div class="cart" onclick="toggleCart()">🛒</div>
-
-<div class="cart-popup" id="cart">
-  <ul id="cartList"></ul>
-
-  <input id="name" placeholder="姓名">
-  <input id="phone" placeholder="電話">
-  <input id="email" placeholder="Email">
-  <input id="address" placeholder="地址">
-
-  <button onclick="checkout()">送出訂單</button>
+    src="https://docs.google.com/forms/d/e/1FAIpQLSf6sJo3vem8fPrng1AIlHpdIUX_2406BS5DcgSVxBd6NFabOQ/viewform?embedded=true"
+    style="width:100%; height:700px; border:none;">
+  </iframe>
 </div>
-
-<script>
-let cart = [];
-
-function addToCart(name, price){
-  const item = cart.find(i=>i.name===name);
-  item ? item.qty++ : cart.push({name, price, qty:1});
-  render();
-}
-
-function render(){
-  const ul = document.getElementById('cartList');
-  ul.innerHTML='';
-  cart.forEach(i=>{
-    ul.innerHTML += `<li>${i.name} x${i.qty}</li>`;
-  });
-}
-
-function toggleCart(){
-  const c = document.getElementById('cart');
-  c.style.display = c.style.display==='block'?'none':'block';
-}
-
-async function checkout(){
-  const data = {
-    customer:{
-      name:name.value,
-      phone:phone.value,
-      email:email.value,
-      address:address.value
-    },
-    items:cart,
-    totalAmount:cart.reduce((t,i)=>t+i.price*i.qty,0)
-  };
-
-  const res = await fetch(
-    'https://script.google.com/macros/s/AKfycbw-EvUJbRp36HtbAqP7wSqpM00K_AJxXKZ70q44PdAQRwAgop_Q0V02V-NMUOSxlbeK/exec',
-    {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(data)
-    }
-  );
-
-  alert('訂單已送出');
-  cart=[];
-  render();
-  toggleCart();
-}
-</script>
 
 </body>
 </html>
